@@ -1,0 +1,61 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	new file:   Three Bears High Fiving/Assets/Objects.meta
+#	new file:   Three Bears High Fiving/Assets/Objects/Materials.meta
+#	new file:   Three Bears High Fiving/Assets/Objects/Materials/defaultMat.mat
+#	new file:   Three Bears High Fiving/Assets/Objects/Materials/defaultMat.mat.meta
+#	new file:   Three Bears High Fiving/Assets/Objects/Test Level.mtl
+#	new file:   Three Bears High Fiving/Assets/Objects/Test Level.mtl.meta
+#	new file:   Three Bears High Fiving/Assets/Objects/Test Level.obj
+#	new file:   Three Bears High Fiving/Assets/Objects/Test Level.obj.meta
+#	new file:   Three Bears High Fiving/Assets/Prefab.meta
+#	new file:   Three Bears High Fiving/Assets/Sprites.meta
+#	modified:   Three Bears High Fiving/Library/AssetServerCacheV3
+#	modified:   Three Bears High Fiving/Library/ScriptAssemblies/BuiltinAssemblies.stamp
+#	modified:   Three Bears High Fiving/Library/ScriptMapper
+#	new file:   Three Bears High Fiving/Library/ShaderCache/3/314aae99e2fc9a86037f076daf43bba6.bin
+#	new file:   Three Bears High Fiving/Library/ShaderCache/3/38aa91f9394c92c966b576bdb9f86a62.bin
+#	new file:   Three Bears High Fiving/Library/ShaderCache/4/487a05413647b4cd81dfc4dfa74ce02c.bin
+#	new file:   Three Bears High Fiving/Library/ShaderCache/5/5a07d5f3390cabc80f946c743a874a04.bin
+#	new file:   Three Bears High Fiving/Library/ShaderCache/7/7d560eb5849ef6bec86eb10f3db23f9b.bin
+#	new file:   Three Bears High Fiving/Library/ShaderCache/e/ec296f51e37a5380a42dec445a8180bc.bin
+#	new file:   Three Bears High Fiving/Library/ShaderCache/f/f58760f112c968010c136769b1ccd31b.bin
+#	new file:   Three Bears High Fiving/Library/ShaderCache/f/f5d4a045850664422d2c7c938f46a409.bin
+#	modified:   Three Bears High Fiving/Library/assetDatabase3
+#	modified:   Three Bears High Fiving/Library/metadata/3c/3c0ad459c1534645b5d603b7cc258f97
+#	modified:   Three Bears High Fiving/Library/metadata/5f/5f32cd94baa94578a686d4b9d6b660f7
+#	modified:   Three Bears High Fiving/Library/metadata/73/739bbd9f364b4268874f9fd86ab3beef
+#	modified:   Three Bears High Fiving/Library/metadata/7c/7cbab2be89b54486bbd23a6fe637d30e
+#	modified:   Three Bears High Fiving/Library/metadata/80/80a3616ca19596e4da0f10f14d241e9f
+#	modified:   Three Bears High Fiving/Library/metadata/85/852e56802eb941638acbb491814497b0
+#	modified:   Three Bears High Fiving/Library/metadata/87/870353891bb340e2b2a9c8707e7419ba
+#	new file:   Three Bears High Fiving/Library/metadata/8b/8b4825d7ae946e643ab0772fab91f6ac
+#	new file:   Three Bears High Fiving/Library/metadata/8b/8b4825d7ae946e643ab0772fab91f6ac.info
+#	modified:   Three Bears High Fiving/Library/metadata/8e/8e0cd8ed44d4412cbe0642067abc9e44
+#	new file:   Three Bears High Fiving/Library/metadata/91/9189d7f8918aa8c4eb6ec6fecaa6bf3f
+#	new file:   Three Bears High Fiving/Library/metadata/91/9189d7f8918aa8c4eb6ec6fecaa6bf3f.info
+#	new file:   Three Bears High Fiving/Library/metadata/97/97c95e273afda864d8b8428384f62bfd
+#	new file:   Three Bears High Fiving/Library/metadata/97/97c95e273afda864d8b8428384f62bfd.info
+#	modified:   Three Bears High Fiving/Library/metadata/97/97decbdab0634cdd991f8d23ddf0dead
+#	new file:   Three Bears High Fiving/Library/metadata/a6/a6aa533ba3bc50549a68a9a23c26a821
+#	new file:   Three Bears High Fiving/Library/metadata/a6/a6aa533ba3bc50549a68a9a23c26a821.info
+#	modified:   Three Bears High Fiving/Library/metadata/ad/adebbd281f1a4ef3a30be7f21937e02f
+#	new file:   Three Bears High Fiving/Library/metadata/de/de8a387c57f8a1f4c9887f5b50f0c802
+#	new file:   Three Bears High Fiving/Library/metadata/de/de8a387c57f8a1f4c9887f5b50f0c802.info
+#	modified:   Three Bears High Fiving/Library/metadata/f5/f5f67c52d1564df4a8936ccd202a3bd8
+#	new file:   Three Bears High Fiving/Library/metadata/f6/f6ca9dfc945e6ff42a4b9a85271203c6
+#	new file:   Three Bears High Fiving/Library/metadata/f6/f6ca9dfc945e6ff42a4b9a85271203c6.info
+#	new file:   Three Bears High Fiving/Library/metadata/ff/ff6be9836c741554a82eddbad12b623b
+#	new file:   Three Bears High Fiving/Library/metadata/ff/ff6be9836c741554a82eddbad12b623b.info
+#	new file:   Three Bears High Fiving/Library/shadercompiler-UnityShaderCompiler.exe0.log
+#	modified:   Three Bears High Fiving/ProjectSettings/ProjectVersion.txt
+#
+# Untracked files:
+#	Three Bears High Fiving/Temp/
+#
+
