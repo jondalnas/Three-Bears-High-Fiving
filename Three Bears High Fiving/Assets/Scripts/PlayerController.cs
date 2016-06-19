@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour {
     public float jumpSpeed = 10f;
     public float gravity = 9.81f;
     public float boostSpeed = 15f;
+    public float radius = 0.66f;
     public GameObject center;
 
     private float vSpeed;
@@ -24,14 +25,14 @@ public class PlayerController : MonoBehaviour {
     void Update () {
         Vector3 vel = Vector3.right*Input.GetAxis("Horizontal") * moveSpeed;
 
-        Collider[] cols = Physics.OverlapBox(center.transform.position, new Vector3(1.1f, 0.6f, 1)); //Make the collision box smaler or something, It's hitting the slope
-        if (cols.Length>1) onWall = true;
-        else onWall = false;
+        Collider[] cols = Physics.OverlapSphere(center.transform.position, radius); //Make the collision box smaler or something, It's hitting the slope
 
+        onWall = false;
         Collider wall = null;
         foreach (Collider col in cols) {
             if (col != gameObject) {
                 wall = col;
+                onWall = true;
                 break;
             }
         }
