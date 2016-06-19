@@ -3,31 +3,72 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
     public float moveSpeed = 5f;
-    public float jumpSpeed = 100f;
+    public float jumpSpeed = 10f;
+    public float gravity = 9.81f;
+    public float boostSpeed = 15f;
+    public GameObject center;
 
-    private float distToGround;
+    private float vSpeed;
+    private float wSpeed;
+
+    private bool onWall;
 
     private CharacterController cc;
 
 	// Use this for initialization
 	void Start () {
         cc = GetComponent<CharacterController>();
-	}
+    }
 	
 	// Update is called once per frame
-    void FixedUpdate () {
-        float x = Input.GetAxis("Horizontal") * moveSpeed;
+    void Update () {
+        Vector3 vel = Vector3.right*Input.GetAxis("Horizontal") * moveSpeed;
 
-        if (Input.GetKeyDown("space")&&isGrounded()) {
-            cc.Move(Vector3.up*jumpSpeed);
+        Collider[] cols = Physics.OverlapBox(center.transform.position, new Vector3(1.1f, 0.6f, 1)); //Make the collision box smaler or something, It's hitting the slope
+        if (cols.Length>1) onWall = true;
+        else onWall = false;
+
+        Collider wall = null;
+        foreach (Collider col in cols) {
+            if (col != gameObject) {
+                wall = col;
+                break;
+            }
         }
 
-        cc.Move(new Vector3(x, 0, 0));
-    }
+        bool onWall0 = onWall;
+        if (cc.isGrounded) onWall0 = false;
 
-    bool isGrounded() {
-        distToGround = GetComponent<CharacterController>().bounds.extents.y + 0.1f;
-        Debug.Log(distToGround);
-        return Physics.Raycast(transform.position, -Vector3.up, distToGround);
+        if (cc.isGrounded || onWall0) {
+            if (cc.isGrounded) vSpeed = 0;
+
+            if (Input.GetKeyDown("space")) {
+                if (!onWall0) vSpeed = jumpSpeed;
+                else vSpeed = jumpSpeed / 2;
+
+                if (onWall0) {
+                    Vector3 heading = wall.gameObject.transform.position-transform.position;
+
+                    float dir;
+
+                    if (heading.x > 0) dir = -1;
+                    else dir = 1;
+
+                    wSpeed = dir*boostSpeed;
+                }
+            }
+        }
+
+        if (!onWall) vSpeed -= gravity * Time.deltaTime;
+
+        if (onWall) vSpeed *= 0.95f;
+
+        wSpeed *= 0.95f;
+
+        vel.y = vSpeed;
+
+        vel.x += wSpeed;
+
+        cc.Move(vel*Time.deltaTime);
     }
 }
