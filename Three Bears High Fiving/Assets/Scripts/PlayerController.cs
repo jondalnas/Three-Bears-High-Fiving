@@ -2,74 +2,82 @@
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
-    public float moveSpeed = 5f;
-    public float jumpSpeed = 10f;
-    public float gravity = 9.81f;
-    public float boostSpeed = 15f;
-    public float radius = 0.66f;
-    public GameObject center;
+	public float moveSpeed = 5f;
+	public float jumpSpeed = 10f;
+	public float boostSpeed = 15f;
 
-    private float vSpeed;
-    private float wSpeed;
+	public Transform groundCheck;
 
-    private bool onWall;
+	private bool onWall;
+	private bool onGround;
+	private bool jump;
 
-    private CharacterController cc;
+	private Vector3 heading;
+	private Vector3 vel;
 
-	// Use this for initialization
+	private Rigidbody rb;
+
 	void Start () {
-        cc = GetComponent<CharacterController>();
-    }
-	
-	// Update is called once per frame
-    void Update () {
-        Vector3 vel = Vector3.right*Input.GetAxis("Horizontal") * moveSpeed;
+		//Initializing
+		rb = GetComponent<Rigidbody>();
+	}
 
-        Collider[] cols = Physics.OverlapSphere(center.transform.position, radius); //Make the collision box smaler or something, It's hitting the slope
+	void Update() {
+		//Find out wheteher player is grounded or not
+		onGround = Physics.Linecast(transform.position, groundCheck.position);
 
-        onWall = false;
-        Collider wall = null;
-        foreach (Collider col in cols) {
-            if (col != gameObject) {
-                wall = col;
-                onWall = true;
-                break;
-            }
-        }
+		//Pressing Space will make the player jump
+		if (onGround) {
+			if (Input.GetAxis ("Jump") > 0)
+				jump = true;
+		}
+	}
 
-        bool onWall0 = onWall;
-        if (cc.isGrounded) onWall0 = false;
+	void FixedUpdate() {
+		//Creating velocity vector, this will be used to make the character walk
+		Vector3 vel = Vector3.zero;
 
-        if (cc.isGrounded || onWall0) {
-            if (cc.isGrounded) vSpeed = 0;
+		//Moving the chracter by pressing the a/d buttons
+		vel.x += Input.GetAxis("Horizontal");
 
-            if (Input.GetKeyDown("space")) {
-                if (!onWall0) vSpeed = jumpSpeed;
-                else vSpeed = jumpSpeed / 2;
+		//Not applying y velocity, because y is gravity and we don't want to mess with that, except when it's on the wall, that means it shouldn't fall down
+		if (!onWall) rb.velocity = Vector3.Scale(rb.velocity, new Vector3(1, 0, 1));
 
-                if (onWall0) {
-                    Vector3 heading = wall.gameObject.transform.position-transform.position;
+		//Move player by vel*moveSpeed
+		rb.AddForce(Vector3.right*vel.x*moveSpeed);
 
-                    float dir;
+		//If jumping, jump!
+		if (jump) {
+			rb.AddForce(Vector3.up*vel.y*jumpSpeed);
+			jump = false;
+		}
+	}
 
-                    if (heading.x > 0) dir = -1;
-                    else dir = 1;
+	public void OnCollisionEnter(Collision col) {
+	    ContactPoint[] cols = col.contacts;
+	    foreach (ContactPoint con in cols) {
+	        heading = Vector3.RotateTowards(transform.position, con.point, Mathf.Infinity, 0.0f).normalized;
 
-                    wSpeed = dir*boostSpeed;
-                }
-            }
-        }
+	        if (heading.x > heading.y) {
+	            onWall = true;
+	        }
+	        else if (heading.y > 0) {
+	            onGround = true;
+	        }
+	    }
+	}
 
-        if (!onWall) vSpeed -= gravity * Time.deltaTime;
+	public void OnCollisionExit(Collision col) {
+		ContactPoint[] cols = col.contacts;
+		foreach (ContactPoint con in cols) {
+			heading = Vector3.RotateTowards(transform.position, con.point, Mathf.Infinity, 0.0f).normalized;
 
-        if (onWall) vSpeed *= 0.95f;
-
-        wSpeed *= 0.95f;
-
-        vel.y = vSpeed;
-
-        vel.x += wSpeed;
-
-        cc.Move(vel*Time.deltaTime);
-    }
+			if (heading.x > heading.y) {
+				onWall = false;
+			}
+			else if (heading.y > 0) {
+				onGround = true;
+			}
+		}
+	}
 }
