@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
 
 	private Vector3 heading;
 	private Vector3 vel;
+	private Vector3 contactPoint;
 
 	private Rigidbody rb;
 
@@ -28,7 +29,8 @@ public class PlayerController : MonoBehaviour {
 
 		//Pressing Space will make the player jump
 		if (onGround) {
-			if (Input.GetAxis ("Jump") > 0)
+			Debug.Log("Can jump");
+			if (Input.GetAxis("Jump") > 0)
 				jump = true;
 		}
 	}
@@ -41,43 +43,59 @@ public class PlayerController : MonoBehaviour {
 		vel.x += Input.GetAxis("Horizontal");
 
 		//Not applying y velocity, because y is gravity and we don't want to mess with that, except when it's on the wall, that means it shouldn't fall down
-		if (!onWall) rb.velocity = Vector3.Scale(rb.velocity, new Vector3(1, 0, 1));
+		if (onWall&&rb.velocity.y<0) rb.velocity = Vector3.Scale(rb.velocity, new Vector3(1, 0, 1));
 
 		//Move player by vel*moveSpeed
 		rb.AddForce(Vector3.right*vel.x*moveSpeed);
 
 		//If jumping, jump!
 		if (jump) {
-			rb.AddForce(Vector3.up*vel.y*jumpSpeed);
+			rb.AddForce(Vector3.up*jumpSpeed);
 			jump = false;
 		}
 	}
 
-	public void OnCollisionEnter(Collision col) {
+	void OnCollisionStay(Collision col) {
 	    ContactPoint[] cols = col.contacts;
-	    foreach (ContactPoint con in cols) {
-	        heading = Vector3.RotateTowards(transform.position, con.point, Mathf.Infinity, 0.0f).normalized;
+		foreach (ContactPoint con in cols) {
+			//This is where the contact is apearing
+			heading = (con.point-transform.position).normalized;
 
-	        if (heading.x > heading.y) {
+			//Pure debug
+			if (Mathf.Floor (Mathf.Abs (heading.x) * 10) >= 7)
+				contactPoint = heading + transform.position;
+			else
+				contactPoint = Vector3.forward;
+
+			Debug.Log(Mathf.Floor(Mathf.Abs(heading.x)*10));
+
+			//Collision check
+			if (Mathf.Floor(Mathf.Abs(heading.x)*10) >= 7) {
 	            onWall = true;
 	        }
-	        else if (heading.y > 0) {
+			if (Mathf.Abs(heading.y) > 0) {
 	            onGround = true;
 	        }
 	    }
 	}
 
-	public void OnCollisionExit(Collision col) {
+	void OnCollisionExit(Collision col) {
 		ContactPoint[] cols = col.contacts;
 		foreach (ContactPoint con in cols) {
-			heading = Vector3.RotateTowards(transform.position, con.point, Mathf.Infinity, 0.0f).normalized;
+			heading = (con.point-transform.position).normalized;
 
-			if (heading.x > heading.y) {
+			//Collision check, reverced
+			if (Mathf.Floor(Mathf.Abs(heading.x)*10) >= 7) {
 				onWall = false;
 			}
-			else if (heading.y > 0) {
-				onGround = true;
+			if (Mathf.Abs(heading.y) > 0) {
+				onGround = false;
 			}
 		}
+	}
+
+	void OnDrawGizmosSelected() {
+		Gizmos.color = Color.red;
+		if (contactPoint != Vector3.forward) Gizmos.DrawSphere(contactPoint+new Vector3(0, -1, 0), .1f);
 	}
 }
