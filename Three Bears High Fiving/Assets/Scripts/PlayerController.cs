@@ -4,17 +4,19 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 	public float moveSpeed = 5f;
 	public float jumpSpeed = 10f;
-	public float boostSpeed = 15f;
+	public float dashSpeed = 15f;
 
 	public Transform groundCheck;
 
 	private bool onWall;
 	private bool onGround;
 	private bool jump;
+	private bool wallDash;
+	private bool facingRight;
+	private bool isJumping;
 
 	private Vector3 heading;
 	private Vector3 vel;
-	private Vector3 contactPoint;
 
 	private Rigidbody rb;
 
@@ -27,12 +29,18 @@ public class PlayerController : MonoBehaviour {
 		//Find out wheteher player is grounded or not
 		onGround = Physics.Linecast(transform.position, groundCheck.position);
 
-		//Pressing Space will make the player jump
-		if (onGround) {
-			Debug.Log("Can jump");
-			if (Input.GetAxis("Jump") > 0)
-				jump = true;
-		}
+		//Pressing Space will make the player jump, or dash if it isn't allready jumping
+		if (Input.GetButtonDown("Jump")) {
+			if (!isJumping) {
+				if (onGround)
+					jump = true;
+				else if (onWall)
+					wallDash = true;
+			}
+
+			isJumping = true;
+		} else
+			isJumping = false;
 	}
 
 	void FixedUpdate() {
@@ -40,10 +48,7 @@ public class PlayerController : MonoBehaviour {
 		Vector3 vel = Vector3.zero;
 
 		//Moving the chracter by pressing the a/d buttons
-		vel.x += Input.GetAxis("Horizontal");
-
-		//Not applying y velocity, because y is gravity and we don't want to mess with that, except when it's on the wall, that means it shouldn't fall down
-		if (onWall&&rb.velocity.y<0) rb.velocity = Vector3.Scale(rb.velocity, new Vector3(1, 0, 1));
+		vel.x += Input.GetAxis("Move");
 
 		//Move player by vel*moveSpeed
 		rb.AddForce(Vector3.right*vel.x*moveSpeed);
@@ -53,6 +58,21 @@ public class PlayerController : MonoBehaviour {
 			rb.AddForce(Vector3.up*jumpSpeed);
 			jump = false;
 		}
+
+		//If on wall and jumps, player dashes
+		if (wallDash) {
+			//Initilizing faceing vector to left, for convenience
+			Vector3 faceing = Vector3.left;
+
+			//If facing left, faceing vector needs to be left
+			if (facingRight)
+				faceing = Vector3.right;
+
+			//Adding dash and jump force
+			rb.AddForce(faceing*jumpSpeed);
+			rb.AddForce(Vector3.up*jumpSpeed);
+			wallDash = false;
+		}
 	}
 
 	void OnCollisionStay(Collision col) {
@@ -61,41 +81,21 @@ public class PlayerController : MonoBehaviour {
 			//This is where the contact is apearing
 			heading = (con.point-transform.position).normalized;
 
-			//Pure debug
-			if (Mathf.Floor (Mathf.Abs (heading.x) * 10) >= 7)
-				contactPoint = heading + transform.position;
-			else
-				contactPoint = Vector3.forward;
-
-			Debug.Log(Mathf.Floor(Mathf.Abs(heading.x)*10));
-
 			//Collision check
 			if (Mathf.Floor(Mathf.Abs(heading.x)*10) >= 7) {
 	            onWall = true;
+				if (heading.x > 0)
+					facingRight = false;
+				else 
+					facingRight = true;
 	        }
-			if (Mathf.Abs(heading.y) > 0) {
+			if (Mathf.Abs(heading.y) > 0)
 	            onGround = true;
-	        }
 	    }
 	}
 
 	void OnCollisionExit(Collision col) {
-		ContactPoint[] cols = col.contacts;
-		foreach (ContactPoint con in cols) {
-			heading = (con.point-transform.position).normalized;
-
-			//Collision check, reverced
-			if (Mathf.Floor(Mathf.Abs(heading.x)*10) >= 7) {
-				onWall = false;
-			}
-			if (Mathf.Abs(heading.y) > 0) {
-				onGround = false;
-			}
-		}
-	}
-
-	void OnDrawGizmosSelected() {
-		Gizmos.color = Color.red;
-		if (contactPoint != Vector3.forward) Gizmos.DrawSphere(contactPoint+new Vector3(0, -1, 0), .1f);
+		onWall = false;
+		onGround = false;
 	}
 }
