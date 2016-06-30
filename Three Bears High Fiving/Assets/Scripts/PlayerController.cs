@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnCollisionExit(Collision col) {
+		//If it doesn't collode, it resets ground and wall stuff
 		onWall = false;
 		onGround = false;
 	}
