@@ -50,7 +50,9 @@ public class PlayerController : MonoBehaviour {
 		//Moving the chracter by pressing the a/d buttons
 		vel.x += Input.GetAxis("Move");
 
-		//Move player by vel*moveSpeed
+		Debug.Log(vel);
+
+		//Move player left/right by vel*moveSpeed
 		rb.AddForce(Vector3.right*vel.x*moveSpeed);
 
 		//If jumping, jump!
