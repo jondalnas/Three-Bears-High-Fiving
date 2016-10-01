@@ -27,7 +27,7 @@ public class Door : MonoBehaviour {
 				childObject.transform.parent = transform;
 
 				//Getting all child objects of childObject and adding an explotion force
-				for (int i = 0; i < childObject.transform.GetChildCount(); i++) {
+				for (int i = 0; i < childObject.transform.childCount; i++) {
 					childObject.transform.GetChild(i).GetComponent<Rigidbody>().AddExplosionForce(explotionPower, player.transform.position, explotionSize);
 				}
 
