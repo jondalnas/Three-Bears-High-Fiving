@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Window : MonoBehaviour {
 	public GameObject particalsystem;
+    public GameObject brokenWindow;
 
 	private ParticleSystem ps;
 
@@ -11,7 +12,11 @@ public class Window : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col) {
-		Vector3 dir = transform.position-col.transform.position;
+        transform.Find("Window Object").gameObject.SetActive(false);
+        transform.Find("Broken Window Object").gameObject.SetActive(true);
+        transform.Find("Broken Window Pieces").gameObject.SetActive(true);
+
+        Vector3 dir = transform.position-col.transform.position;
 
 		Vector3 distance;
 
@@ -20,18 +25,7 @@ public class Window : MonoBehaviour {
 		} else {
 			distance = new Vector3(-20, 0, 0);
 		}
-
-		ParticleSystem.Particle[] particles = new ParticleSystem.Particle[ps.particleCount];
-		int count = ps.GetParticles(particles);
-
-		for (int i = 0; i < count; i++) {
-			particles[i].velocity = (particles[i].lifetime / particles[i].startLifetime) * distance;
-		}
-
-		ps.SetParticles(particles, count);
-
-		Debug.Log(count);
-
+        
 		ps.Play();
 
 		GetComponent<BoxCollider>().enabled = false;

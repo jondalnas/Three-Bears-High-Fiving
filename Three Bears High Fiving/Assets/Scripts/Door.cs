@@ -15,6 +15,9 @@ public class Door : MonoBehaviour {
 		if (!isDestroyed) {
 			//If it isn't player colliding, then don't do anything
 			if (col.gameObject.CompareTag("Player")) {
+				//The collider should be disabled, just so nothing wierd will happen
+				transform.GetComponent<BoxCollider>().enabled = false;
+
 				//Removeing all children
 				foreach (Transform child in transform) {
 					Destroy(child.gameObject);

@@ -1,0 +1,12 @@
+# Blender MTL File: 'Window.blend'
+# Material Count: 1
+
+newmtl Window_material.001
+Ns 978.431373
+Ka 1.000000 1.000000 1.000000
+Kd 0.270086 0.640000 0.621712
+Ks 0.436927 0.942976 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 0.250000
+d 0.355372
+illum 9

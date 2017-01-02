@@ -4,20 +4,23 @@ using System.Collections;
 public class EnemyAI : MonoBehaviour {
 
 	public GameObject player;
+
 	public Transform camPos;
+	public Transform head;
 	public Transform[] checkpoints;
+
 	public float[] wait;
 	public float speed;
 
 	[HideInInspector] public bool isAgro;
 
 	private float waitingTimer;
-	private int checkpoint;
-	private bool walking;
-	private Vector3 direction;
 
-	void Start () {
-	}
+	private int checkpoint;
+
+	private bool walking;
+
+	private Vector3 direction;
 
 	void Update () {
 		//If engine can draw a line between character and enemy witout hitting anything (except player), enemy gets agro
@@ -62,6 +65,9 @@ public class EnemyAI : MonoBehaviour {
 					}
 				}
 			}
+		} else {
+			Vector3 dir = player.transform.position - transform.position;
+			head.transform.rotation = Quaternion.FromToRotation(Vector3.right, dir);
 		}
 	}
 

@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
 	private bool wallDash;
 	private bool facingRight;
 	private bool isJumping;
+	private bool hitHead;
 
 	private float gravPull;
 
@@ -28,39 +29,33 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update() {
-		//Pressing Space will make the player jump, or dash if it isn't allready jumping
-		if (Input.GetButtonDown("Jump")) {
+		jump = Input.GetButtonDown("Jump");
+
+		//If the player bumps its head, then we will reset y velocity
+		if (hitHead) vel.y = 0;
+
+		hitHead = false;
+	}
+
+	void FixedUpdate() {
+		//Moving the chracter by pressing the a/d buttons or by left stick and adding jump
+		cc.Move(Vector3.right*Input.GetAxis("Move")*moveSpeed+vel);
+
+		Debug.Log(cc.isGrounded);
+
+		//Pressing Space will make the player jump or dash if it is colliding with wall
+		if (jump) {
 			if (!isJumping) {
-				if (cc.isGrounded)
-					jump = true;
-				else if (onWall)
+				if (cc.isGrounded) {
+					vel.y = 0;
+					vel.y += jumpSpeed;
+				} else if (onWall)
 					wallDash = true;
 			}
 
 			isJumping = true;
 		} else
 			isJumping = false;
-		//If the player bumps its head, then we will reset y velocity
-		if (head.GetComponent<HeadCollider>().hitHead) vel.y = 0;
-
-		//Simple gravity, may want to change it
-		if (!cc.isGrounded) {
-			gravPull += 0.01f;
-			if (gravPull >= maxGravityPull) gravPull = maxGravityPull;
-			vel.y -= gravPull;
-		} else
-			vel.y = 0;
-	}
-
-	void FixedUpdate() {
-		//Moving the chracter by pressing the a/d buttons or by left stick
-		cc.Move(Vector3.right*Input.GetAxis("Move")*moveSpeed);
-
-		//If jumping, jump!
-		if (jump) {
-			vel.y += jumpSpeed;
-			jump = false;
-		}
 
 		//If on wall and jumps, player dashes
 		if (wallDash) {
@@ -77,10 +72,17 @@ public class PlayerController : MonoBehaviour {
 			wallDash = false;
 		}
 
-		//Move player in all directions
-		cc.Move(vel);
+		//Simple gravity, may want to change it
+		if (!cc.isGrounded) {
+			gravPull += 0.01f;
+			if (gravPull >= maxGravityPull) gravPull = maxGravityPull;
+			vel.y -= gravPull;
+		}
+		else {
+			gravPull = 0;
+		}
 
-		//The player wont be able to walk in the z plane
+		//The player won't be able to walk in the z plane
 		transform.position = new Vector3(transform.position.x, transform.position.y, 0);
 	}
 
@@ -89,8 +91,6 @@ public class PlayerController : MonoBehaviour {
 		foreach (ContactPoint con in cols) {
 			//This is where the contact is apearing
 			heading = (con.point-transform.position).normalized;
-
-			if (con.thisCollider.CompareTag("Head")) Debug.Log("hello");
 
 			//Collision check
 			if (Mathf.Floor(Mathf.Abs(heading.x)*10) >= 7) {
@@ -101,6 +101,10 @@ public class PlayerController : MonoBehaviour {
 					facingRight = true;
 			}
 		}
+
+		//If Object collides with head, then hitHead equals true
+		if (!col.transform.CompareTag("Player"))
+			hitHead = true;
 	}
 
 	void OnCollisionExit(Collision col) {
