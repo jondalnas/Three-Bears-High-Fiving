@@ -41,8 +41,6 @@ public class PlayerController : MonoBehaviour {
 		//Moving the chracter by pressing the a/d buttons or by left stick and adding jump
 		cc.Move(Vector3.right*Input.GetAxis("Move")*moveSpeed+vel);
 
-		Debug.Log(cc.isGrounded);
-
 		//Pressing Space will make the player jump or dash if it is colliding with wall
 		if (jump) {
 			if (!isJumping) {
