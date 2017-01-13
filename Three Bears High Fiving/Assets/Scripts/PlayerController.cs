@@ -17,19 +17,29 @@ public class PlayerController : MonoBehaviour {
 	private bool hitHead;
 
 	private float gravPull;
+	private float moveing;
 
 	private Vector3 heading;
 	private Vector3 vel;
+	private Vector3 scale;
 
 	private CharacterController cc;
+	private GameObject playerSprite;
 
-	void Start () {
+	void Start() {
 		//Initializing
 		cc = GetComponent<CharacterController>();
+		playerSprite = transform.FindChild("Player Sprite").gameObject;
+		scale = playerSprite.transform.localScale;
 	}
 
 	void Update() {
 		jump = Input.GetButtonDown("Jump");
+		moveing = Input.GetAxis("Move");
+
+		//If moveing direction is less then 0, then the player is faceing left
+		if (moveing < 0) playerSprite.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+		else if (moveing != 0) playerSprite.transform.localScale = new Vector3(scale.x, scale.y, scale.z);
 
 		//If the player bumps its head, then we will reset y velocity
 		if (hitHead) vel.y = 0;
@@ -39,13 +49,12 @@ public class PlayerController : MonoBehaviour {
 
 	void FixedUpdate() {
 		//Moving the chracter by pressing the a/d buttons or by left stick and adding jump
-		cc.Move(Vector3.right*Input.GetAxis("Move")*moveSpeed+vel);
+		cc.Move(Vector3.right*moveing*moveSpeed+vel);
 
 		//Pressing Space will make the player jump or dash if it is colliding with wall
 		if (jump) {
 			if (!isJumping) {
 				if (cc.isGrounded) {
-					vel.y = 0;
 					vel.y += jumpSpeed;
 				} else if (onWall)
 					wallDash = true;
@@ -75,18 +84,23 @@ public class PlayerController : MonoBehaviour {
 			gravPull += 0.01f;
 			if (gravPull >= maxGravityPull) gravPull = maxGravityPull;
 			vel.y -= gravPull;
-		}
-		else {
+		} else {
 			gravPull = 0;
+			vel.y *= 0.6f;
 		}
 
 		//The player won't be able to walk in the z plane
 		transform.position = new Vector3(transform.position.x, transform.position.y, 0);
 	}
 
-	void OnCollisionStay(Collision col) {
-		ContactPoint[] cols = col.contacts;
+	void OnControllerColliderHit(ControllerColliderHit col) {
+		//ContactPoint[] cols = col.points;
+		//TODO: DEBUG, REMOVE WHEN DONE
+		Debug.DrawRay(col.point, col.normal, Color.red);
+
+		/*
 		foreach (ContactPoint con in cols) {
+
 			//This is where the contact is apearing
 			heading = (con.point-transform.position).normalized;
 
@@ -98,7 +112,7 @@ public class PlayerController : MonoBehaviour {
 				else 
 					facingRight = true;
 			}
-		}
+		}*/
 
 		//If Object collides with head, then hitHead equals true
 		if (!col.transform.CompareTag("Player"))
