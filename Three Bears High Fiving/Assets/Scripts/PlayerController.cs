@@ -3,59 +3,54 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 	public float moveSpeed = 5f;
-	public float jumpSpeed = 10f;
 	public float dashSpeed = 15f;
-	public float maxGravityPull = 0.5f;
-
-	public GameObject head;
+	public float jumpHeight = 2.0f;
+	public float gravity = 9.81f;
 
 	private bool onWall;
 	private bool jump;
 	private bool wallDash;
 	private bool facingRight;
 	private bool isJumping;
-	private bool hitHead;
-
-	private float gravPull;
+	private bool isGrounded;
+	
 	private float moveing;
+	private float secInAir;
 
 	private Vector3 heading;
-	private Vector3 vel;
 	private Vector3 scale;
 
-	private CharacterController cc;
+	private Rigidbody rb;
 	private GameObject playerSprite;
 
 	void Start() {
 		//Initializing
-		cc = GetComponent<CharacterController>();
+		rb = GetComponent<Rigidbody>();
 		playerSprite = transform.FindChild("Player Sprite").gameObject;
 		scale = playerSprite.transform.localScale;
 	}
 
 	void Update() {
-		jump = Input.GetButtonDown("Jump");
+		if (!jump) jump = Input.GetButtonDown("Jump");
 		moveing = Input.GetAxis("Move");
 
 		//If moveing direction is less then 0, then the player is faceing left
 		if (moveing < 0) playerSprite.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
 		else if (moveing != 0) playerSprite.transform.localScale = new Vector3(scale.x, scale.y, scale.z);
-
-		//If the player bumps its head, then we will reset y velocity
-		if (hitHead) vel.y = 0;
-
-		hitHead = false;
 	}
 
 	void FixedUpdate() {
-		//Moving the chracter by pressing the a/d buttons or by left stick and adding jump
-		cc.Move(Vector3.right*moveing*moveSpeed+vel);
+		//Calculate character speed
+		Vector3 playerVel = Vector3.right * moveing * moveSpeed;
+
+		//Calculate actual velocity
+		rb.AddForce(playerVel, ForceMode.Force);
 
 		//Pressing Space will make the player jump or dash if it is colliding with wall
 		if (jump) {
 			if (!isJumping) {
-				if (cc.isGrounded) {
-					vel.y += jumpSpeed;
+				if (isGrounded) {
+					rb.AddForce(new Vector3(rb.velocity.x, Mathf.Sqrt(2 * jumpHeight * gravity), rb.velocity.z), ForceMode.Force);
 				} else if (onWall)
 					wallDash = true;
 			}
@@ -74,53 +69,45 @@ public class PlayerController : MonoBehaviour {
 				faceing = 1;
 
 			//Adding dash and jump force
-			vel.x += faceing*dashSpeed;
-			vel.y += jumpSpeed;
+			Vector3 vel = new Vector3(faceing*dashSpeed, Mathf.Sqrt(2 * jumpHeight * gravity), 0);
+			rb.AddForce(vel, ForceMode.Force);
+
 			wallDash = false;
 		}
 
-		//Simple gravity, may want to change it
-		if (!cc.isGrounded) {
-			gravPull += 0.01f;
-			if (gravPull >= maxGravityPull) gravPull = maxGravityPull;
-			vel.y -= gravPull;
-		} else {
-			gravPull = 0;
-			vel.y *= 0.6f;
+		if (!isGrounded) {
+			Debug.Log(rb.velocity + ", " + secInAir);
+			secInAir += Time.deltaTime;
 		}
+		else
+			secInAir = 1;
 
-		//The player won't be able to walk in the z plane
-		transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-	}
+		rb.AddForce(new Vector3(0, CalculateGravity(secInAir), 0), ForceMode.Acceleration);
 
-	void OnControllerColliderHit(ControllerColliderHit col) {
-		//ContactPoint[] cols = col.points;
-		//TODO: DEBUG, REMOVE WHEN DONE
-		Debug.DrawRay(col.point, col.normal, Color.red);
-
-		/*
-		foreach (ContactPoint con in cols) {
-
-			//This is where the contact is apearing
-			heading = (con.point-transform.position).normalized;
-
-			//Collision check
-			if (Mathf.Floor(Mathf.Abs(heading.x)*10) >= 7) {
-				onWall = true;
-				if (heading.x > 0)
-					facingRight = false;
-				else 
-					facingRight = true;
-			}
-		}*/
-
-		//If Object collides with head, then hitHead equals true
-		if (!col.transform.CompareTag("Player"))
-			hitHead = true;
-	}
-
-	void OnCollisionExit(Collision col) {
-		//If it doesn't collode, it resets ground and wall stuff
+		isGrounded = false;
 		onWall = false;
+		jump = false;
+	}
+
+	float CalculateGravity(float secInAir) {
+		return 0.5f * -gravity * (secInAir*secInAir);
+	}
+
+	void OnCollisionStay(Collision col) {
+		foreach (ContactPoint contact in col.contacts) {
+			//FIX ME!!!
+			//The player is on ground if the player is colliding with
+			//someting that is less then 45 degress steep
+			if ((-contact.normal).x<=0.6f && (-contact.normal).x>=-0.6f) {
+				if ((-contact.normal).y <= -0.6f) {
+					isGrounded = true;
+					return;
+				}
+			}
+
+			if ((-contact.normal).y >= -0.6f && (-contact.normal).y <= 0.6f) {
+				onWall = true;
+			}
+		}
 	}
 }

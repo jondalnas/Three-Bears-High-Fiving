@@ -9,7 +9,18 @@ public class Door : MonoBehaviour {
 	public float explotionPower;
 
 	private bool isDestroyed;
+	
+	void OnCollisionEnter(Collision col) {
+		if (!isDestroyed) {
+			GetComponent<Rigidbody>().isKinematic = false;
 
+			transform.localScale = transform.localScale - new Vector3(0, 0.01f, 0);
+
+			isDestroyed = true;
+		}
+	}
+
+	/*
 	void OnTriggerEnter(Collider col) {
 		//If the door is allready destryed, don't destroy it
 		if (!isDestroyed) {
@@ -29,6 +40,9 @@ public class Door : MonoBehaviour {
 				//Setting the child object's parrent to this object
 				childObject.transform.parent = transform;
 
+				childObject.GetComponent<Rigidbody>().AddExplosionForce(explotionPower, player.transform.position, explotionSize);
+
+				
 				//Getting all child objects of childObject and adding an explotion force
 				for (int i = 0; i < childObject.transform.childCount; i++) {
 					childObject.transform.GetChild(i).GetComponent<Rigidbody>().AddExplosionForce(explotionPower, player.transform.position, explotionSize);
@@ -37,5 +51,5 @@ public class Door : MonoBehaviour {
 				isDestroyed = true;
 			}
 		}
-	}
+	}*/
 }
