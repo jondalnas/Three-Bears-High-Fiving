@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour {
 	void Start() {
 		//Initializing
 		rb = GetComponent<Rigidbody>();
-		playerSprite = transform.FindChild("Player Sprite").gameObject;
+		playerSprite = transform.Find("Player Sprite").gameObject;
 		scale = playerSprite.transform.localScale;
 	}
 
