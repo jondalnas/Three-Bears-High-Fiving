@@ -44,13 +44,13 @@ public class PlayerController : MonoBehaviour {
 		Vector3 playerVel = Vector3.right * moveing * moveSpeed;
 
 		//Calculate actual velocity
-		rb.AddForce(playerVel, ForceMode.Force);
+		rb.velocity = playerVel + rb.velocity.y * Vector3.up;
 
 		//Pressing Space will make the player jump or dash if it is colliding with wall
 		if (jump) {
 			if (!isJumping) {
 				if (isGrounded) {
-					rb.AddForce(new Vector3(rb.velocity.x, Mathf.Sqrt(2 * jumpHeight * gravity), rb.velocity.z), ForceMode.Force);
+					rb.velocity += new Vector3(rb.velocity.x, Mathf.Sqrt(2 * jumpHeight * gravity));
 				} else if (onWall)
 					wallDash = true;
 			}
@@ -69,8 +69,7 @@ public class PlayerController : MonoBehaviour {
 				faceing = 1;
 
 			//Adding dash and jump force
-			Vector3 vel = new Vector3(faceing*dashSpeed, Mathf.Sqrt(2 * jumpHeight * gravity), 0);
-			rb.AddForce(vel, ForceMode.Force);
+			rb.velocity += new Vector3(faceing*dashSpeed, Mathf.Sqrt(2 * jumpHeight * gravity), 0);
 
 			wallDash = false;
 		}
@@ -82,7 +81,7 @@ public class PlayerController : MonoBehaviour {
 		else
 			secInAir = 1;
 
-		rb.AddForce(new Vector3(0, CalculateGravity(secInAir), 0), ForceMode.Acceleration);
+		//rb.velocity += CalculateGravity(secInAir)*Vector3.up;
 
 		isGrounded = false;
 		onWall = false;

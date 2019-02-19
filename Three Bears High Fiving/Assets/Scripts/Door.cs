@@ -11,12 +11,34 @@ public class Door : MonoBehaviour {
 	private bool isDestroyed;
 	
 	void OnCollisionEnter(Collision col) {
+		//If the door is allready destryed, don't destroy it
 		if (!isDestroyed) {
-			GetComponent<Rigidbody>().isKinematic = false;
+			//If it isn't player colliding, then don't do anything
+			if (col.gameObject.CompareTag("Player")) {
+				//The collider should be disabled, just so nothing wierd will happen
+				transform.GetComponent<BoxCollider>().enabled = false;
 
-			transform.localScale = transform.localScale - new Vector3(0, 0.01f, 0);
+				//Removeing all children
+				foreach (Transform child in transform) {
+					Destroy(child.gameObject);
+				}
 
-			isDestroyed = true;
+				//Creating new child object
+				GameObject childObject = Instantiate(destroyedDoor, transform.position, transform.rotation) as GameObject;
+
+				//Setting the child object's parrent to this object
+				childObject.transform.parent = transform;
+
+				childObject.GetComponent<Rigidbody>().AddExplosionForce(explotionPower, player.transform.position, explotionSize);
+
+				
+				//Getting all child objects of childObject and adding an explotion force
+				for (int i = 0; i < childObject.transform.childCount; i++) {
+					childObject.transform.GetChild(i).GetComponent<Rigidbody>().AddExplosionForce(explotionPower, player.transform.position, explotionSize);
+				}
+
+				isDestroyed = true;
+			}
 		}
 	}
 
