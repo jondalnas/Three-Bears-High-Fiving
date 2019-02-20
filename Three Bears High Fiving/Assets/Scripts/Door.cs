@@ -28,9 +28,6 @@ public class Door : MonoBehaviour {
 
 				//Setting the child object's parrent to this object
 				childObject.transform.parent = transform;
-
-				childObject.GetComponent<Rigidbody>().AddExplosionForce(explotionPower, player.transform.position, explotionSize);
-
 				
 				//Getting all child objects of childObject and adding an explotion force
 				for (int i = 0; i < childObject.transform.childCount; i++) {

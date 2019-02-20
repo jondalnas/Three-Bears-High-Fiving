@@ -5,6 +5,9 @@ public class Window : MonoBehaviour {
 	public GameObject particalsystem;
     public GameObject brokenWindow;
 
+	public float explotionSize = 1;
+	public float explotionPower = 4;
+
 	private ParticleSystem ps;
 
 	void Start() {
@@ -24,6 +27,10 @@ public class Window : MonoBehaviour {
 			distance = new Vector3(20, 0, 0);
 		} else {
 			distance = new Vector3(-20, 0, 0);
+		}
+
+		for (int i = 0; i < transform.Find("Broken Window Pieces").transform.childCount; i++) {
+			transform.Find("Broken Window Pieces").transform.GetChild(i).GetComponent<Rigidbody>().AddExplosionForce(explotionPower, col.transform.position, explotionSize);
 		}
         
 		ps.Play();

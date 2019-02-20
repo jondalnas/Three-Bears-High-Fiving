@@ -1,37 +1,232 @@
 fileFormatVersion: 2
 guid: 2df52bc77699d85409c139db3bc00f8c
-timeCreated: 1482534930
-licenseType: Free
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     100002: default
+    100004: Broken_Window_Parts_cell.001_Mesh.001
+    100006: Broken_Window_Parts_cell.003_Mesh.002
+    100008: Broken_Window_Parts_cell.004_Mesh.003
+    100010: Broken_Window_Parts_cell.005_Mesh.004
+    100012: Broken_Window_Parts_cell.008_Mesh.005
+    100014: Broken_Window_Parts_cell.009_Mesh.006
+    100016: Broken_Window_Parts_cell.011_Mesh.007
+    100018: Broken_Window_Parts_cell.012_Mesh.008
+    100020: Broken_Window_Parts_cell.013_Mesh.009
+    100022: Broken_Window_Parts_cell.014_Mesh.010
+    100024: Broken_Window_Parts_cell.016_Mesh.011
+    100026: Broken_Window_Parts_cell.018_Mesh.012
+    100028: Broken_Window_Parts_cell.019_Mesh.013
+    100030: Broken_Window_Parts_cell.020_Mesh.014
+    100032: Broken_Window_Parts_cell.021_Mesh.015
+    100034: Broken_Window_Parts_cell.022_Mesh.016
+    100036: Broken_Window_Parts_cell.023_Mesh.017
+    100038: Broken_Window_Parts_cell_Mesh
+    100040: Broken_Window_Parts_Cube.001
     400000: //RootNode
     400002: default
+    400004: Broken_Window_Parts_cell.001_Mesh.001
+    400006: Broken_Window_Parts_cell.003_Mesh.002
+    400008: Broken_Window_Parts_cell.004_Mesh.003
+    400010: Broken_Window_Parts_cell.005_Mesh.004
+    400012: Broken_Window_Parts_cell.008_Mesh.005
+    400014: Broken_Window_Parts_cell.009_Mesh.006
+    400016: Broken_Window_Parts_cell.011_Mesh.007
+    400018: Broken_Window_Parts_cell.012_Mesh.008
+    400020: Broken_Window_Parts_cell.013_Mesh.009
+    400022: Broken_Window_Parts_cell.014_Mesh.010
+    400024: Broken_Window_Parts_cell.016_Mesh.011
+    400026: Broken_Window_Parts_cell.018_Mesh.012
+    400028: Broken_Window_Parts_cell.019_Mesh.013
+    400030: Broken_Window_Parts_cell.020_Mesh.014
+    400032: Broken_Window_Parts_cell.021_Mesh.015
+    400034: Broken_Window_Parts_cell.022_Mesh.016
+    400036: Broken_Window_Parts_cell.023_Mesh.017
+    400038: Broken_Window_Parts_cell_Mesh
+    400040: Broken_Window_Parts_Cube.001
     2300000: default
+    2300002: Broken_Window_Parts_cell.001_Mesh.001
+    2300004: Broken_Window_Parts_cell.003_Mesh.002
+    2300006: Broken_Window_Parts_cell.004_Mesh.003
+    2300008: Broken_Window_Parts_cell.005_Mesh.004
+    2300010: Broken_Window_Parts_cell.008_Mesh.005
+    2300012: Broken_Window_Parts_cell.009_Mesh.006
+    2300014: Broken_Window_Parts_cell.011_Mesh.007
+    2300016: Broken_Window_Parts_cell.012_Mesh.008
+    2300018: Broken_Window_Parts_cell.013_Mesh.009
+    2300020: Broken_Window_Parts_cell.014_Mesh.010
+    2300022: Broken_Window_Parts_cell.016_Mesh.011
+    2300024: Broken_Window_Parts_cell.018_Mesh.012
+    2300026: Broken_Window_Parts_cell.019_Mesh.013
+    2300028: Broken_Window_Parts_cell.020_Mesh.014
+    2300030: Broken_Window_Parts_cell.021_Mesh.015
+    2300032: Broken_Window_Parts_cell.022_Mesh.016
+    2300034: Broken_Window_Parts_cell.023_Mesh.017
+    2300036: Broken_Window_Parts_cell_Mesh
+    2300038: Broken_Window_Parts_Cube.001
     3300000: default
+    3300002: Broken_Window_Parts_cell.001_Mesh.001
+    3300004: Broken_Window_Parts_cell.003_Mesh.002
+    3300006: Broken_Window_Parts_cell.004_Mesh.003
+    3300008: Broken_Window_Parts_cell.005_Mesh.004
+    3300010: Broken_Window_Parts_cell.008_Mesh.005
+    3300012: Broken_Window_Parts_cell.009_Mesh.006
+    3300014: Broken_Window_Parts_cell.011_Mesh.007
+    3300016: Broken_Window_Parts_cell.012_Mesh.008
+    3300018: Broken_Window_Parts_cell.013_Mesh.009
+    3300020: Broken_Window_Parts_cell.014_Mesh.010
+    3300022: Broken_Window_Parts_cell.016_Mesh.011
+    3300024: Broken_Window_Parts_cell.018_Mesh.012
+    3300026: Broken_Window_Parts_cell.019_Mesh.013
+    3300028: Broken_Window_Parts_cell.020_Mesh.014
+    3300030: Broken_Window_Parts_cell.021_Mesh.015
+    3300032: Broken_Window_Parts_cell.022_Mesh.016
+    3300034: Broken_Window_Parts_cell.023_Mesh.017
+    3300036: Broken_Window_Parts_cell_Mesh
+    3300038: Broken_Window_Parts_Cube.001
     4300000: default
+    4300002: Broken_Window_Parts_cell.001_Mesh.001
+    4300004: Broken_Window_Parts_cell.003_Mesh.002
+    4300006: Broken_Window_Parts_cell.004_Mesh.003
+    4300008: Broken_Window_Parts_cell.005_Mesh.004
+    4300010: Broken_Window_Parts_cell.008_Mesh.005
+    4300012: Broken_Window_Parts_cell.009_Mesh.006
+    4300014: Broken_Window_Parts_cell.011_Mesh.007
+    4300016: Broken_Window_Parts_cell.012_Mesh.008
+    4300018: Broken_Window_Parts_cell.013_Mesh.009
+    4300020: Broken_Window_Parts_cell.014_Mesh.010
+    4300022: Broken_Window_Parts_cell.016_Mesh.011
+    4300024: Broken_Window_Parts_cell.018_Mesh.012
+    4300026: Broken_Window_Parts_cell.019_Mesh.013
+    4300028: Broken_Window_Parts_cell.020_Mesh.014
+    4300030: Broken_Window_Parts_cell.021_Mesh.015
+    4300032: Broken_Window_Parts_cell.022_Mesh.016
+    4300034: Broken_Window_Parts_cell.023_Mesh.017
+    4300036: Broken_Window_Parts_cell_Mesh
+    4300038: Broken_Window_Parts_Cube.001
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_Cube.001Mat
+    second: {fileID: 2100000, guid: 218b0c5fc5d21784c925ec47424513ca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.001_Mesh.001Mat
+    second: {fileID: 2100000, guid: 96909fff3b264501386024f63b3cae53, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.003_Mesh.002Mat
+    second: {fileID: 2100000, guid: 5fb3f1e25095358dabdbc263c7135fae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.004_Mesh.003Mat
+    second: {fileID: 2100000, guid: 854c762d6a1238604b7e126fdf34e9db, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.005_Mesh.004Mat
+    second: {fileID: 2100000, guid: 26c62e843f0a1f70d989cf408604d6a0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.008_Mesh.005Mat
+    second: {fileID: 2100000, guid: d54fbd84c6b20b88a86fb0412357be31, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.009_Mesh.006Mat
+    second: {fileID: 2100000, guid: 9ad5b47e8d8cc8489a689ebcd41b2cef, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.011_Mesh.007Mat
+    second: {fileID: 2100000, guid: c98bc5476c8c33bc0b37798041dec7c2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.012_Mesh.008Mat
+    second: {fileID: 2100000, guid: 96f2a210dab8c012db4ca6642fe07d74, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.013_Mesh.009Mat
+    second: {fileID: 2100000, guid: 805eeed4fb6718bcdb5309f96defefdf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.014_Mesh.010Mat
+    second: {fileID: 2100000, guid: 49b405b24f5a7d6c5b8f0fb7271d7e9f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.016_Mesh.011Mat
+    second: {fileID: 2100000, guid: 2862421e0145765e2811782de5d99e05, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.018_Mesh.012Mat
+    second: {fileID: 2100000, guid: 33c492fede7aa59ab81d845fe1486196, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.019_Mesh.013Mat
+    second: {fileID: 2100000, guid: 860ae4f9cd402ebf88c2fe320e3c2321, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.020_Mesh.014Mat
+    second: {fileID: 2100000, guid: 0f066fc4d1f532fafae8caa03cb880e2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.021_Mesh.015Mat
+    second: {fileID: 2100000, guid: b7a15d222d2237cfe8f7b8238ef014df, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.022_Mesh.016Mat
+    second: {fileID: 2100000, guid: 0a6a44e72538cecf38a1c008d0f50989, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell.023_Mesh.017Mat
+    second: {fileID: 2100000, guid: af6d42fc194d6f25ebb04d09f2381059, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Broken_Window_Parts_cell_MeshMat
+    second: {fileID: 2100000, guid: 2c3f465b9d5000e0ba948e8d7761ae59, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -39,25 +234,38 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
+    serializedVersion: 2
     human: []
     skeleton: []
     armTwist: 0.5
@@ -69,6 +277,8 @@ ModelImporter:
     feetSpacing: 0
     rootMotionBoneName: 
     hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 0
   humanoidOversampling: 1
