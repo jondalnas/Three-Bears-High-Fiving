@@ -9,15 +9,12 @@ public class PlayerController : MonoBehaviour {
 
 	private bool onWall;
 	private bool jump;
-	private bool wallDash;
 	private bool facingRight;
-	private bool isJumping;
 	private bool isGrounded;
+	private Vector3 groundNormal;
 	
 	private float moveing;
-	private float secInAir;
 
-	private Vector3 heading;
 	private Vector3 scale;
 
 	private Rigidbody rb;
@@ -40,71 +37,58 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		//Calculate character speed
-		Vector3 playerVel = Vector3.right * moveing * moveSpeed;
+		//Calculate movement velocity
+		if (isGrounded) {
+			rb.velocity = moveing * moveSpeed * Vector3.right;
+		} else {
+			//If player is in air, then add 10% of movement speed to velocity and cap it at 100%, so air controlls feel more "air-y"
+			rb.velocity += moveing * moveSpeed * Vector3.right * 0.1f;
+			if (rb.velocity.x > moveSpeed) {
+				rb.velocity = moveSpeed * Vector3.right + rb.velocity.y * Vector3.up;
+			}
 
-		//Calculate actual velocity
-		rb.velocity = playerVel + rb.velocity.y * Vector3.up;
+			if (rb.velocity.x < -moveSpeed) {
+				rb.velocity = moveSpeed * Vector3.left + rb.velocity.y * Vector3.up;
+			}
+		}
 
 		//Pressing Space will make the player jump or dash if it is colliding with wall
 		if (jump) {
-			if (!isJumping) {
-				if (isGrounded) {
-					rb.velocity += new Vector3(rb.velocity.x, Mathf.Sqrt(2 * jumpHeight * gravity));
-				} else if (onWall)
-					wallDash = true;
+			if (isGrounded) {
+				rb.velocity += new Vector3(rb.velocity.x, Mathf.Sqrt(2 * jumpHeight * gravity));
+
+				isGrounded = false;
+			} else if (onWall) {
+				//Initilizing faceing vector to left, for convenience
+				int faceing = -1;
+
+				//If facing left, faceing vector needs to be left
+				if (facingRight)
+					faceing = 1;
+
+				//Adding dash and jump force
+				rb.velocity += new Vector3(faceing*dashSpeed, Mathf.Sqrt(2 * jumpHeight * gravity), 0);
+
+				onWall = false;
 			}
-
-			isJumping = true;
-		} else
-			isJumping = false;
-
-		//If on wall and jumps, player dashes
-		if (wallDash) {
-			//Initilizing faceing vector to left, for convenience
-			int faceing = -1;
-
-			//If facing left, faceing vector needs to be left
-			if (facingRight)
-				faceing = 1;
-
-			//Adding dash and jump force
-			rb.velocity += new Vector3(faceing*dashSpeed, Mathf.Sqrt(2 * jumpHeight * gravity), 0);
-
-			wallDash = false;
+		
+			jump = false;
 		}
-
-		if (!isGrounded) {
-			Debug.Log(rb.velocity + ", " + secInAir);
-			secInAir += Time.deltaTime;
-		}
-		else
-			secInAir = 1;
-
-		//rb.velocity += CalculateGravity(secInAir)*Vector3.up;
-
-		isGrounded = false;
-		onWall = false;
-		jump = false;
 	}
 
-	float CalculateGravity(float secInAir) {
-		return 0.5f * -gravity * (secInAir*secInAir);
-	}
-
-	void OnCollisionStay(Collision col) {
+	void OnCollisionEnter(Collision col) {
 		foreach (ContactPoint contact in col.contacts) {
-			//FIX ME!!!
+			float slopeAngle = Vector3.Dot(contact.normal, Vector3.up);
+
 			//The player is on ground if the player is colliding with
 			//someting that is less then 45 degress steep
-			if ((-contact.normal).x<=0.6f && (-contact.normal).x>=-0.6f) {
-				if ((-contact.normal).y <= -0.6f) {
-					isGrounded = true;
-					return;
-				}
+			if (slopeAngle > 0.5f) {
+				isGrounded = true;
+				groundNormal = contact.normal;
+				return;
 			}
 
-			if ((-contact.normal).y >= -0.6f && (-contact.normal).y <= 0.6f) {
+			if (slopeAngle < 0.5f && slopeAngle > -0.5f) {
 				onWall = true;
 			}
 		}
