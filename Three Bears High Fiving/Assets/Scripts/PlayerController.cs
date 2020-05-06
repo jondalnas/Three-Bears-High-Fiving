@@ -5,13 +5,14 @@ public class PlayerController : MonoBehaviour {
 	public float moveSpeed = 5f;
 	public float dashSpeed = 15f;
 	public float jumpHeight = 2.0f;
-	public float gravity = 9.81f;
+	private float jumpVelocity;
 
 	private bool onWall;
 	private bool jump;
 	private bool facingRight;
 	private bool isGrounded;
-	private Vector3 groundNormal;
+	private Vector3 groundTangent;
+	public float groundBias = 0.01f;
 	
 	private float moveing;
 
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 		playerSprite = transform.Find("Player Sprite").gameObject;
 		scale = playerSprite.transform.localScale;
+		jumpVelocity = Mathf.Sqrt(2 * jumpHeight * -Physics.gravity.y);
 	}
 
 	void Update() {
@@ -37,9 +39,19 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
+		//Calculate if player is on gorund, what andle it is and move player down if it is close to it
+		RaycastHit hit;
+		if (Physics.BoxCast(GetComponent<BoxCollider>().bounds.center, GetComponent<BoxCollider>().bounds.extents * 0.99f, Vector3.down, out hit, Quaternion.identity, groundBias)) {
+			if (checkGround(hit.normal)) {
+				transform.position += (hit.distance - GetComponent<BoxCollider>().bounds.extents.y * 0.01f) * Vector3.down;
+			}
+		} else {
+			isGrounded = false;
+		}
+
 		//Calculate movement velocity
 		if (isGrounded) {
-			rb.velocity = moveing * moveSpeed * Vector3.right;
+			rb.velocity = moveing * moveSpeed * groundTangent;
 		} else {
 			//If player is in air, then add 10% of movement speed to velocity and cap it at 100%, so air controlls feel more "air-y"
 			rb.velocity += moveing * moveSpeed * Vector3.right * 0.1f;
@@ -55,7 +67,7 @@ public class PlayerController : MonoBehaviour {
 		//Pressing Space will make the player jump or dash if it is colliding with wall
 		if (jump) {
 			if (isGrounded) {
-				rb.velocity += new Vector3(rb.velocity.x, Mathf.Sqrt(2 * jumpHeight * gravity));
+				rb.velocity += new Vector3(rb.velocity.x, jumpVelocity);
 
 				isGrounded = false;
 			} else if (onWall) {
@@ -67,30 +79,45 @@ public class PlayerController : MonoBehaviour {
 					faceing = 1;
 
 				//Adding dash and jump force
-				rb.velocity += new Vector3(faceing*dashSpeed, Mathf.Sqrt(2 * jumpHeight * gravity), 0);
+				rb.velocity += new Vector3(faceing * dashSpeed, jumpVelocity, 0);
 
 				onWall = false;
 			}
 		
 			jump = false;
 		}
+
+		onWall = false;
 	}
 
-	void OnCollisionEnter(Collision col) {
-		foreach (ContactPoint contact in col.contacts) {
-			float slopeAngle = Vector3.Dot(contact.normal, Vector3.up);
+	void OnCollisionStay(Collision col) {
+		//If on gorund, then player can't be on wall as well
+		if (isGrounded) return;
 
-			//The player is on ground if the player is colliding with
-			//someting that is less then 45 degress steep
-			if (slopeAngle > 0.5f) {
-				isGrounded = true;
-				groundNormal = contact.normal;
-				return;
-			}
+		foreach (ContactPoint con in col.contacts) {
+			float slopeAngle = Vector3.Dot(con.normal, Vector3.up);
+
+			Debug.Log(slopeAngle);
 
 			if (slopeAngle < 0.5f && slopeAngle > -0.5f) {
 				onWall = true;
 			}
 		}
+	}
+
+	private bool checkGround(Vector3 normal) {
+		float slopeAngle = Vector3.Dot(normal, Vector3.up);
+
+		//The player is on ground if the player is colliding with
+		//someting that is less then 45 degress steep
+		if (slopeAngle > 0.5f) {
+			isGrounded = true;
+			groundTangent = new Vector2(normal.y, -normal.x);
+
+			return true;
+		}
+
+		isGrounded = false;
+		return false;
 	}
 }
